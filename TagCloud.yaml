@@ -1,0 +1,5 @@
+name: Tag Cloud
+description: Generates tagclouds blocks. The more often a tag is used, the bigger it gets.
+category: Taxonomy
+version: 1.0
+core: 1.x
