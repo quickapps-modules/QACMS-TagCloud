@@ -1,3 +1,19 @@
+<?php
+    if ($this->request->params['admin'] &&
+        $this->request->params['plugin'] == 'block' &&
+        $this->request->params['controller'] == 'manage' &&
+        $this->request->params['action'] == 'admin_edit' &&
+        !Configure::read('Modules.TagCloud.status') &&
+        isset($this->data['Block']) &&
+        $this->data['Block']['module'] == 'TagCloud' &&
+        $this->data['Block']['delta'] == 'widget'
+    ) {
+        $this->Layout->flashMsg(
+            __d('tag_cloud', 'Tag Cloud module is <a href="%s">disabled</a>. This block wont be displayed!', Router::url('/admin/system/modules')),
+            'alert'
+        );
+    }
+?>
 <?php $vocabularies = ClassRegistry::init('Taxonomy.Vocabulary')->find('list'); ?>
 <?php echo $this->Html->useTag('fieldsetstart', __d('tag_cloud', 'Tag Cloud Configuration')); ?>
     <?php
