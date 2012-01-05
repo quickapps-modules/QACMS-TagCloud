@@ -5,6 +5,7 @@ class TagCloudHookHelper extends AppHelper {
     }
 
     public function tag_cloud_widget($block) {
+        $conditions = array();
         $out = '';
         $settings = array_merge(
             array(
@@ -52,8 +53,17 @@ class TagCloudHookHelper extends AppHelper {
             )
         );
 
+        if (isset($block['Block']['settings']['vocabularies'])) {
+            $v = Set::filter($block['Block']['settings']['vocabularies']);
+
+            if (!empty($v)) {
+                $conditions['Term.vocabulary_id'] = $v;
+            }
+        }
+
         $terms = $NodesTerms->find('all',
             array(
+                'conditions' => $conditions,
                 'fields' => array(
                     'NodesTerms.term_id',
                     'NodesTerms.id', "COUNT('NodesTerms.id') as term_count",
